@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">FoodBallTask</string>
+    <string name="phone">Phone:</string>
+    <string name="country">Country:</string>
+    <string name="team_name">Team NAme</string>
+    <string name="competition_name">League Name</string>
+    <string name="short_name">Short Name</string>
+    <string name="games_number">Games Number</string>
+    <string name="current_season">Current Season</string>
+    <string name="start">Start: </string>
+    <string name="end">End: </string>
+    <string name="website">Website:</string>
+    <string name="email">Email:</string>
+    <string name="club_colors">Club Colors:</string>
+</resources>
