@@ -1,6 +1,6 @@
 package com.example.testfoodball
 
-data class Response(
+data class Response1(
     val competitions: List<Competition>,
     val count: Int,
     val filters: Filters

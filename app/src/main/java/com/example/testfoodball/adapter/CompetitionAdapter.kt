@@ -9,12 +9,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testfoodball.R
-import com.example.testfoodball.Response
+//import com.example.testfoodball.Response
+import com.example.testfoodball.Response1
 import com.example.testfoodball.activity.SecondActivity
+import com.example.testfoodball.utils.Resourse
 import kotlinx.android.synthetic.main.cometation_item.view.*
 
 class CompetitionAdapter : RecyclerView.Adapter<CompetitionAdapter.CompetitionViewHolder>() {
-    var competitionList: List<Response> = emptyList()
+    var competitionList: List<Response1> = ArrayList<Response1>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompetitionViewHolder {
         return CompetitionViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.cometation_item, parent, false)
@@ -43,10 +45,10 @@ class CompetitionAdapter : RecyclerView.Adapter<CompetitionAdapter.CompetitionVi
         return competitionList.size
     }
 
-    fun setList(competition: Response?) {
-        val list:ArrayList<Response> = ArrayList()
+    fun setList(competition: Response1) {
+        val list:ArrayList<Response1> = ArrayList()
         val size:Int =competition?.count!!.toInt()
-        for (n in 1 .. size!!){
+        for (n in 1 .. size){
             list.add(competition)
         }
         this.competitionList = list

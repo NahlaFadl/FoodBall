@@ -1,31 +1,47 @@
 package com.example.testfoodball.view_model
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.testfoodball.Response
-import com.example.testfoodball.retrofit.ApiClient
-import retrofit2.Call
-import retrofit2.Callback
+//import androidx.lifecycle.MutableLiveData
+//import androidx.lifecycle.ViewModel
+//import androidx.lifecycle.viewModelScope
+import com.example.testfoodball.Response1
+import com.example.testfoodball.MainRepository
+import com.example.testfoodball.utils.NetworkHelper
+import com.example.testfoodball.utils.Resourse
+import kotlinx.coroutines.launch
 
-class CompetitionViewModel:ViewModel() {
+import androidx.lifecycle.*
 
-    var mutableLiveData:MutableLiveData<Response>? = MutableLiveData()
+class CompetitionViewModel(
+    private val mainRepository: MainRepository,
+    val networkHelper: NetworkHelper):ViewModel() {
 
-  suspend  fun getCompetition(){
-        val call= ApiClient.instance!!.getMyApi().getCompetitions()
-        call.enqueue(object :Callback<Response>{
-            override fun onResponse(
-                call: Call<Response>?,
-                response: retrofit2.Response<Response>?
-            ) {
-                mutableLiveData!!.value=response!!.body()
-            }
+   private val mutableLiveData:MutableLiveData<Resourse<Response1>> = MutableLiveData()
 
-            override fun onFailure(call: Call<Response>?, t: Throwable?) {
-                Log.d("ero",t!!.message.toString())
-            }
+    val liveData: MutableLiveData<Resourse<Response1>>
+    get() = mutableLiveData
 
-        })
+    init {
+        fetchCompetition()
     }
+
+    private fun fetchCompetition() {
+
+        viewModelScope.launch {
+            mutableLiveData.postValue(Resourse.loading(null))
+            if (networkHelper.isNetworkConnected()){
+                mainRepository.getCompetitions().let {
+                    if (it.isSuccessful){
+                        mutableLiveData.postValue(Resourse.success(it.body()))
+                    }else{
+                        mutableLiveData.postValue(Resourse.error(it.errorBody().toString(),null))
+                    }
+
+                }
+            }else{
+                mutableLiveData.postValue(Resourse.error("No internet connection",null))
+            }
+        }
+    }
+
+
 }
